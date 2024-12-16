@@ -1,0 +1,10 @@
+[package]
+name = "f1-telemetry-cli"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dialoguer = "0.11.0"
+native-dialog = "0.7.0"
+serde = { version = "1.0.216", features = ["derive"] }
+serde_json = "1.0.133"
