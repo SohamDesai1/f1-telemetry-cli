@@ -35,21 +35,22 @@ fn main() {
                 ("Qualifying", "Qualifying", "quali"),
                 ("Race", "R", "race"),
             ];
-            let sesh: Vec<_> = sessions.iter().map(|(sesh, _, _)| sesh).collect();
+            let sesh_names: Vec<_> = sessions.iter().map(|(sesh, _, _)| sesh).collect();
             let select_sesh = Select::with_theme(&ColorfulTheme::default())
                 .with_prompt("Select a driver you want to analyze:")
                 .default(0)
-                .items(&sesh)
+                .items(&sesh_names)
                 .interact()
                 .unwrap();
 
+            let (_, sesh, _) = sessions[select_sesh];
             let (_, _, sesh_var_name) = sessions[select_sesh];
             add_cell(
                 file_path_str,
                 vec![
                     format!(
                         "{} = f1.get_session(2024, \"Qatar\", \"{}\")\n",
-                        sesh_var_name, select_sesh
+                        sesh_var_name, sesh
                     ),
                     format!("{}.load()", sesh_var_name),
                 ],
@@ -67,7 +68,7 @@ fn main() {
             add_cell(file_path_str, vec![format!("{}.laps", sesh_var_name)]);
 
             driver_analysis(file_path_str);
-            
+
             run_notebook(file_path_str, python_dir);
         } else {
             println!("Failed to convert the file path to a valid string.");

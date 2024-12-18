@@ -65,7 +65,7 @@ pub fn select_notebook() -> Option<PathBuf> {
 
             // Step 2: Project name prompt
             let project_name: String = Input::with_theme(&ColorfulTheme::default())
-                .with_prompt("Enter the project name")
+                .with_prompt("Enter the file name")
                 .interact_text()
                 .unwrap();
 
