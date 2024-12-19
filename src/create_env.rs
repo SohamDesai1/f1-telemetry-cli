@@ -12,7 +12,7 @@ use native_dialog::FileDialog;
 
 pub fn create_venv(file_path: &str) -> Option<PathBuf> {
     println!("Please select the appropriate option:");
-    let items = vec!["Select a python kernel", "make a virtual env"];
+    let items = vec!["Select a virtual env", "make a virtual env"];
 
     let selection = Select::with_theme(&ColorfulTheme::default())
         .with_prompt("Select an option :")
@@ -46,7 +46,7 @@ pub fn create_venv(file_path: &str) -> Option<PathBuf> {
         }
         1 => {
             let notebook_dir = Path::new(file_path).parent().unwrap();
-            if notebook_dir.join(".venv").exists() {
+            if notebook_dir.join("venv").exists() {
                 println!("Virtual environment already exists at {:?}", notebook_dir);
             } else {
                 println!("Creating virtual environment...");
@@ -54,7 +54,7 @@ pub fn create_venv(file_path: &str) -> Option<PathBuf> {
                 let output = Command::new("python3")
                     .arg("-m")
                     .arg("venv")
-                    .arg(notebook_dir.join(".venv"))
+                    .arg(notebook_dir.join("venv"))
                     .output()
                     .expect("Failed to create virtual environment");
 
@@ -123,7 +123,7 @@ pub fn create_venv(file_path: &str) -> Option<PathBuf> {
                 }
                 std::io::stdout().flush().unwrap();
             }
-            python = Some(notebook_dir.join(".venv").join("bin").join("python"));
+            python = Some(notebook_dir.join("venv").join("bin").join("python"));
             return python;
         }
         _ => {
