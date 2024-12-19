@@ -46,7 +46,7 @@ pub fn driver_analysis(file_path: &str) {
         ),
         abbreviation.to_lowercase(),
     ];
-    add_cell(file_path, code1);
+    add_cell(file_path, code1, "code");
 
     let code2 = vec![
         format!(
@@ -77,7 +77,7 @@ pub fn driver_analysis(file_path: &str) {
         format!("{}_laps.loc[:,[\"LapTime\",\"Sector1Time\",\"Sector2Time\",\"Sector3Time\",\"SpeedI1\",\"SpeedI2\",\"SpeedFL\",\"SpeedST\",]]", abbreviation.to_lowercase()),
     ];
 
-    add_cell(file_path, code2);
+    add_cell(file_path, code2, "code");
 
     let code3 = vec![
         format!(
@@ -96,5 +96,5 @@ pub fn driver_analysis(file_path: &str) {
         ),
     ];
 
-    add_cell(file_path, code3);
+    add_cell(file_path, code3, "code");
 }

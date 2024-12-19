@@ -2,13 +2,13 @@ use serde_json::json;
 use std::fs::{read_to_string, write};
 use crate::notebook;
 
-pub fn add_cell(file_path: &str, new_code: Vec<String>) {
+pub fn add_cell(file_path: &str, new_code: Vec<String>,cell_type: &str) {
     let content = read_to_string(file_path).expect("Unable to read file");
     let mut notebook: notebook::Notebook =
         serde_json::from_str(&content).expect("Error parsing notebook");
 
     let new_cell = notebook::Cell {
-        cell_type: "code".to_string(),
+        cell_type: cell_type.to_string(),
         source: new_code,
         metadata: json!({}),
         outputs: Some(vec![]),

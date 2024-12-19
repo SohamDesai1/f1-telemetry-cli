@@ -27,6 +27,7 @@ fn main() {
                     "import mplcyberpunk\n".to_string(),
                     "from fastf1 import plotting".to_string(),
                 ],
+                "code",
             );
 
             let sessions = vec![
@@ -43,8 +44,11 @@ fn main() {
                 .interact()
                 .unwrap();
 
+            let (sesh_name, _, _) = sessions[select_sesh];
             let (_, sesh, _) = sessions[select_sesh];
             let (_, _, sesh_var_name) = sessions[select_sesh];
+
+            add_cell(file_path_str, vec![format!("*{}*", sesh_name)], "markdown");
             add_cell(
                 file_path_str,
                 vec![
@@ -54,21 +58,27 @@ fn main() {
                     ),
                     format!("{}.load()", sesh_var_name),
                 ],
+                "code",
             );
             add_cell(
                 file_path_str,
                 vec![format!("{}.session_info", sesh_var_name)],
+                "code",
             );
             add_cell(
+                        file_path_str,
+                        vec![format!("{}.results.loc[\n",sesh_var_name),
+            "    :, [\"Abbreviation\", \"TeamName\", \"GridPosition\", \"Position\", \"Time\", \"Status\"]\n".to_string(),
+            "]".to_string()],"code"
+                    );
+            add_cell(
                 file_path_str,
-                vec![format!("{}.results.loc[\n",sesh_var_name),
-    "    :, [\"Abbreviation\", \"TeamName\", \"GridPosition\", \"Position\", \"Time\", \"Status\"]\n".to_string(),
-    "]".to_string()],
+                vec![format!("{}.laps", sesh_var_name)],
+                "code",
             );
-            add_cell(file_path_str, vec![format!("{}.laps", sesh_var_name)]);
-
             driver_analysis(file_path_str);
-
+            run_notebook(file_path_str, python_dir.clone());
+            driver_analysis(file_path_str);
             run_notebook(file_path_str, python_dir);
         } else {
             println!("Failed to convert the file path to a valid string.");
