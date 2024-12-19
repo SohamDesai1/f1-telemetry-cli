@@ -55,22 +55,22 @@ pub fn driver_analysis(file_path: &str) {
             abbreviation
         ),
         format!(
-            "{}_lap_time = {}_laps[\"LapTime\"]",
+            "{}_lap_time = {}_laps[\"LapTime\"]\n",
             abbreviation.to_lowercase(),
             abbreviation.to_lowercase(),
         ),
         format!(
-            "{}_sec1 = {}_laps[\"Sector1Time\"]",
+            "{}_sec1 = {}_laps[\"Sector1Time\"]\n",
             abbreviation.to_lowercase(),
             abbreviation.to_lowercase(),
         ),
         format!(
-            "{}_sec2 = {}_laps[\"Sector2Time\"]",
+            "{}_sec2 = {}_laps[\"Sector2Time\"]\n",
             abbreviation.to_lowercase(),
             abbreviation.to_lowercase(),
         ),
         format!(
-            "{}_sec3 = {}_laps[\"Sector3Time\"]",
+            "{}_sec3 = {}_laps[\"Sector3Time\"]\n",
             abbreviation.to_lowercase(),
             abbreviation.to_lowercase(),
         ),
