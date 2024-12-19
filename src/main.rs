@@ -76,9 +76,9 @@ fn main() {
                 vec![format!("{}.laps", sesh_var_name)],
                 "code",
             );
-            driver_analysis(file_path_str);
+            driver_analysis(file_path_str, sesh_var_name);
             run_notebook(file_path_str, python_dir.clone());
-            driver_analysis(file_path_str);
+            driver_analysis(file_path_str, sesh_var_name);
             run_notebook(file_path_str, python_dir);
         } else {
             println!("Failed to convert the file path to a valid string.");

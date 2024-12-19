@@ -3,7 +3,7 @@ use dialoguer::{theme::ColorfulTheme, Select};
 
 use crate::add_cell::add_cell;
 
-pub fn driver_analysis(file_path: &str) {
+pub fn driver_analysis(file_path: &str, sesh_var_name: &str) {
     let drivers = vec![
         ("VER", "Max Verstappen".truecolor(54, 113, 198)),
         ("NOR", "Lando Norris".truecolor(255, 128, 0)),
@@ -40,8 +40,9 @@ pub fn driver_analysis(file_path: &str) {
 
     let code1 = vec![
         format!(
-            "{} = SpQuali.get_driver(\"{}\")\n",
+            "{} = {}.get_driver(\"{}\")\n",
             abbreviation.to_lowercase(),
+            sesh_var_name,
             abbreviation
         ),
         abbreviation.to_lowercase(),
@@ -50,8 +51,9 @@ pub fn driver_analysis(file_path: &str) {
 
     let code2 = vec![
         format!(
-            "{}_laps = SpQuali.laps.pick_driver(\"{}\")\n",
+            "{}_laps = {}.laps.pick_driver(\"{}\")\n",
             abbreviation.to_lowercase(),
+            sesh_var_name,
             abbreviation
         ),
         format!(
