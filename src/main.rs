@@ -31,6 +31,34 @@ fn main() {
                 ],
             );
 
+            let time_fn = vec![
+                "def convert_to_normal(time):\n".to_string(),
+                "    if pd.isna(time):\n".to_string(),
+                "        return time\n".to_string(),
+                "\n".to_string(),
+                "    time_str = str(time)\n".to_string(),
+                "    parts = time_str.split()\n".to_string(),
+                "\n".to_string(),
+                "    days = int(parts[0])\n".to_string(),
+                "    minutes, seconds_with_microseconds = parts[2].split(\":\")[1:]\n".to_string(),
+                "    seconds, microseconds = seconds_with_microseconds.split(\".\")\n".to_string(),
+                "\n".to_string(),
+                "    minutes = int(minutes)\n".to_string(),
+                "    seconds = int(seconds)\n".to_string(),
+                "    microseconds = int(microseconds)\n".to_string(),
+                "\n".to_string(),
+                "    total_microseconds = (\n".to_string(),
+                "        days * 86400000000 + minutes * 60000000 + seconds * 1000000 + microseconds\n".to_string(),
+                "    )\n".to_string(),
+                "\n".to_string(),
+                "    minutes, remaining_microseconds = divmod(total_microseconds, 60000000)\n".to_string(),
+                "    seconds, microseconds = divmod(remaining_microseconds, 1000000)\n".to_string(),
+                "\n".to_string(),
+                "    normal_time = f\"{minutes:02d}:{seconds:02d}.{microseconds:06d}\"\n".to_string(),
+                "    return normal_time".to_string()
+            ];
+            add_cell(file_path_str, time_fn);
+
             let sessions = vec![
                 ("Sprint Qualifying", "Sprint Qualifying", "SpQuali"),
                 ("Sprint Race", "Sprint", "sprint"),
