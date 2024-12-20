@@ -2,15 +2,16 @@ pub mod add_cell;
 pub mod create_env;
 pub mod driver_analysis;
 pub mod notebook;
+pub mod plot;
 pub mod run_notebook;
 
-use crate::add_cell::add_cell;
-use crate::run_notebook::run_notebook;
-use add_cell::add_markdown;
+use add_cell::{add_cell, add_markdown};
 use dialoguer::theme::ColorfulTheme;
 use dialoguer::Select;
 use driver_analysis::driver_analysis;
 use notebook::select_notebook;
+use plot::generate_plot;
+use run_notebook::run_notebook;
 
 fn main() {
     if let Some(file_path) = select_notebook() {
@@ -79,6 +80,8 @@ fn main() {
                 add_cell(file_path_str, vec![format!("{}.laps", sesh_var_name)]);
 
                 let options = vec!["Yes", "No"];
+                let mut drivers_analysis: Vec<(String, String, String)> = Vec::new();
+
                 loop {
                     let do_analysis = Select::with_theme(&ColorfulTheme::default())
                         .with_prompt("Analyze a driver?")
@@ -86,9 +89,13 @@ fn main() {
                         .items(&options)
                         .interact()
                         .unwrap();
+
                     match do_analysis {
                         0 => {
-                            driver_analysis(file_path_str, sesh_var_name);
+                            let drivers = driver_analysis(file_path_str, sesh_var_name);
+                            for (abr, var, name) in drivers {
+                                drivers_analysis.push((abr, var, name));
+                            }
                             run_notebook(file_path_str, python_dir.clone());
                             println!("Driver Analysis complete.");
                         }
@@ -99,6 +106,14 @@ fn main() {
                         _ => (),
                     }
                 }
+
+                println!("Chart analysis for {} session.", sesh_var_name);
+                let plot_data: Vec<(&str, &str, &str)> = drivers_analysis
+                    .iter()
+                    .map(|(a, b, c)| (a.as_str(), b.as_str(), c.as_str()))
+                    .collect();
+                generate_plot(file_path_str, "SpQuali", plot_data);
+                run_notebook(file_path_str, python_dir.clone());
             }
         } else {
             println!("Failed to convert the file path to a valid string.");
