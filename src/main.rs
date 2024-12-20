@@ -6,6 +6,7 @@ pub mod run_notebook;
 
 use crate::add_cell::add_cell;
 use crate::run_notebook::run_notebook;
+use add_cell::add_markdown;
 use dialoguer::theme::ColorfulTheme;
 use dialoguer::Select;
 use driver_analysis::driver_analysis;
@@ -27,7 +28,6 @@ fn main() {
                     "import mplcyberpunk\n".to_string(),
                     "from fastf1 import plotting".to_string(),
                 ],
-                "code",
             );
 
             let sessions = vec![
@@ -55,7 +55,7 @@ fn main() {
                 let (_, sesh, _) = sessions[select_sesh];
                 let (_, _, sesh_var_name) = sessions[select_sesh];
 
-                add_cell(file_path_str, vec![format!("*{}*", sesh_name)], "markdown");
+                add_markdown(file_path_str, vec![format!("*{}*", sesh_name)]);
                 add_cell(
                     file_path_str,
                     vec![
@@ -65,24 +65,18 @@ fn main() {
                         ),
                         format!("{}.load()", sesh_var_name),
                     ],
-                    "code",
                 );
                 add_cell(
                     file_path_str,
                     vec![format!("{}.session_info", sesh_var_name)],
-                    "code",
                 );
                 add_cell(
                         file_path_str,
                         vec![format!("{}.results.loc[\n",sesh_var_name),
             "    :, [\"Abbreviation\", \"TeamName\", \"GridPosition\", \"Position\", \"Time\", \"Status\"]\n".to_string(),
-            "]".to_string()],"code"
+            "]".to_string()],
                     );
-                add_cell(
-                    file_path_str,
-                    vec![format!("{}.laps", sesh_var_name)],
-                    "code",
-                );
+                add_cell(file_path_str, vec![format!("{}.laps", sesh_var_name)]);
 
                 let options = vec!["Yes", "No"];
                 loop {

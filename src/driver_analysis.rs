@@ -3,7 +3,7 @@ use dialoguer::{theme::ColorfulTheme, Select};
 
 use crate::add_cell::add_cell;
 
-pub fn driver_analysis(file_path: &str, sesh_var_name: &str) {
+pub fn driver_analysis(file_path: &str, sesh_var_name: &str) -> Vec<(String, String, String)> {
     let drivers = vec![
         ("VER", "Max Verstappen".truecolor(54, 113, 198)),
         ("NOR", "Lando Norris".truecolor(255, 128, 0)),
@@ -36,6 +36,7 @@ pub fn driver_analysis(file_path: &str, sesh_var_name: &str) {
         .interact()
         .unwrap();
 
+    let (_, full_name) = &drivers[selection];
     let (abbreviation, _) = drivers[selection];
 
     let code1 = vec![
@@ -47,7 +48,7 @@ pub fn driver_analysis(file_path: &str, sesh_var_name: &str) {
         ),
         abbreviation.to_lowercase(),
     ];
-    add_cell(file_path, code1, "code");
+    add_cell(file_path, code1);
 
     let code2 = vec![
         format!(
@@ -79,7 +80,7 @@ pub fn driver_analysis(file_path: &str, sesh_var_name: &str) {
         format!("{}_laps.loc[:,[\"LapTime\",\"Sector1Time\",\"Sector2Time\",\"Sector3Time\",\"SpeedI1\",\"SpeedI2\",\"SpeedFL\",\"SpeedST\",]]", abbreviation.to_lowercase()),
     ];
 
-    add_cell(file_path, code2, "code");
+    add_cell(file_path, code2);
 
     let code3 = vec![
         format!(
@@ -98,5 +99,11 @@ pub fn driver_analysis(file_path: &str, sesh_var_name: &str) {
         ),
     ];
 
-    add_cell(file_path, code3, "code");
+    add_cell(file_path, code3);
+
+    return vec![(
+        abbreviation.to_lowercase(),
+        abbreviation.to_string(),
+        full_name.to_string(),
+    )];
 }

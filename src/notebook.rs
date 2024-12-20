@@ -5,6 +5,24 @@ use serde_json::Value;
 use std::{fs::File, io::Write, path::PathBuf};
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(tag = "cell_type")]
+pub enum Cell {
+    #[serde(rename = "code")]
+    Code {
+        source: Vec<String>,
+        metadata: Value,
+        outputs: Option<Vec<Value>>,
+        execution_count: Option<i32>,
+    },
+
+    #[serde(rename = "markdown")]
+    Markdown {
+        source: Vec<String>,
+        metadata: Value,
+    },
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Notebook {
     pub cells: Vec<Cell>,
     pub metadata: Value,
@@ -12,14 +30,6 @@ pub struct Notebook {
     pub nbformat_minor: i32,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct Cell {
-    pub cell_type: String,
-    pub source: Vec<String>,
-    pub metadata: Value,
-    pub outputs: Option<Vec<Value>>,
-    pub execution_count: Option<i32>,
-}
 pub fn select_notebook() -> Option<PathBuf> {
     let items = vec![
         "Select a existing notebook",
