@@ -1,5 +1,6 @@
 use colored::*;
 use dialoguer::{theme::ColorfulTheme, Select};
+use regex::Regex;
 
 use crate::add_cell::add_cell;
 
@@ -120,6 +121,11 @@ pub fn driver_analysis(file_path: &str, sesh_var_name: &str) -> Vec<(String, Str
     return vec![(
         abbreviation.to_lowercase(),
         abbreviation.to_string(),
-        full_name.to_string(),
+        remove_ansi_codes(full_name),
     )];
+}
+
+fn remove_ansi_codes(input: &str) -> String {
+    let re = Regex::new(r"\x1b\[[0-9;]*m").unwrap();
+    re.replace_all(input, "").to_string()
 }

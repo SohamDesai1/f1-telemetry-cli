@@ -87,7 +87,7 @@ pub fn create_venv(file_path: &str) -> Option<PathBuf> {
                 Err(_) => println!("Error occured creating notebook"),
             }
 
-            let pip = notebook_dir.join(".venv").join("bin").join("pip");
+            let pip = notebook_dir.join("venv").join("bin").join("pip");
 
             let install_thread = thread::spawn(move || {
                 let install_output = Command::new(pip)

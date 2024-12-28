@@ -28,10 +28,11 @@ pub fn generate_plot(file_path: &str, sesh_var_name: &str, drivers: Vec<(&str, &
 
     for (driver_var, driver_abbr, driver_name) in &drivers {
         plot.push(format!(
-                "ax[0].plot(\n    tele_{var}.Distance, tele_{var}.Speed, label=\"{name}\", color=get_driver_color(\"{abbr}\")\n)\n",
+                "ax[0].plot(\n    tele_{var}_{sesh}.Distance, tele_{var}_{sesh}.Speed, label=\"{name}\", color=get_driver_color(\"{abbr}\")\n)\n",
                 abbr = driver_abbr,
                 var = driver_var,
-                name = driver_name
+                name = driver_name,
+                sesh = sesh_var_name
             ));
     }
 

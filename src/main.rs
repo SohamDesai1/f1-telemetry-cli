@@ -140,7 +140,7 @@ fn main() {
                     .iter()
                     .map(|(a, b, c)| (a.as_str(), b.as_str(), c.as_str()))
                     .collect();
-                generate_plot(file_path_str, "SpQuali", plot_data);
+                generate_plot(file_path_str, sesh_var_name, plot_data);
                 run_notebook(file_path_str, python_dir.clone());
             }
         } else {
