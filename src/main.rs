@@ -65,6 +65,44 @@ fn main() {
                 ("Qualifying", "Qualifying", "quali"),
                 ("Race", "R", "race"),
             ];
+            let gp_display_names: Vec<(&str, &str)> = vec![
+                ("Bahrain Grand Prix", "Bahrain"),
+                ("Saudi Arabian Grand Prix", "Saudi Arabia"),
+                ("Australian Grand Prix", "Australia"),
+                ("Japanese Grand Prix", "Japan"),
+                ("Chinese Grand Prix", "China"),
+                ("Miami Grand Prix", "United States"),
+                ("Emilia Romagna Grand Prix", "Italy"),
+                ("Monaco Grand Prix", "Monaco"),
+                ("Canadian Grand Prix", "Canada"),
+                ("Spanish Grand Prix", "Spain"),
+                ("Austrian Grand Prix", "Austria"),
+                ("British Grand Prix", "British"),
+                ("Hungarian Grand Prix", "Hungary"),
+                ("Belgian Grand Prix", "Belgium"),
+                ("Dutch Grand Prix", "Netherlands"),
+                ("Italian Grand Prix", "Italy"),
+                ("Azerbaijan Grand Prix", "Azerbaijan"),
+                ("Singapore Grand Prix", "Singapore"),
+                ("United States Grand Prix", "United States"),
+                ("Mexican Grand Prix", "Mexico"),
+                ("Brazilian Grand Prix", "Brazil"),
+                ("Las Vegas Grand Prix", "Las Vegas"),
+                ("Qatar Grand Prix", "Qatar"),
+                ("Abu Dhabi Grand Prix", "United Arab Emirates"),
+            ];
+
+            let gp: Vec<_> = gp_display_names
+                .iter()
+                .map(|(country, _)| *country)
+                .collect();
+            let select_gp = Select::with_theme(&ColorfulTheme::default())
+                .with_prompt("Select a GP:")
+                .default(0)
+                .items(&gp)
+                .interact()
+                .unwrap();
+            let ( _, gp_name) = gp_display_names[select_gp];
 
             loop {
                 let mut sesh_names: Vec<_> = sessions.iter().map(|(sesh, _, _)| sesh).collect();
@@ -89,8 +127,8 @@ fn main() {
                     file_path_str,
                     vec![
                         format!(
-                            "{} = f1.get_session(2024, \"Qatar\", \"{}\")\n",
-                            sesh_var_name, sesh
+                            "{} = f1.get_session(2024, \"{}\", \"{}\")\n",
+                            sesh_var_name, gp_name, sesh
                         ),
                         format!("{}.load()", sesh_var_name),
                     ],
