@@ -70,17 +70,17 @@ pub fn driver_analysis(file_path: &str, sesh_var_name: &str) -> Vec<(String, Str
             sesh = sesh_var_name
         ),
         format!(
-            "{name}_sec1 = {name}_{sesh}_laps[\"Sector1Time\"]\n",
+            "{name}_{sesh}_sec1 = {name}_{sesh}_laps[\"Sector1Time\"]\n",
             name = abbreviation.to_lowercase(),
             sesh = sesh_var_name
         ),
         format!(
-            "{name}_sec2 = {name}_{sesh}_laps[\"Sector2Time\"]\n",
+            "{name}_{sesh}_sec2 = {name}_{sesh}_laps[\"Sector2Time\"]\n",
             name = abbreviation.to_lowercase(),
             sesh = sesh_var_name
         ),
         format!(
-            "{name}_sec3 = {name}_{sesh}_laps[\"Sector3Time\"]\n",
+            "{name}_{sesh}_sec3 = {name}_{sesh}_laps[\"Sector3Time\"]\n",
             name = abbreviation.to_lowercase(),
             sesh = sesh_var_name
         ),

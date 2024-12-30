@@ -59,7 +59,7 @@ pub fn generate_plot(file_path: &str, sesh_var_name: &str, drivers: Vec<(&str, &
 
     let mut sectors: Vec<String> = vec![];
     for (index, (driver_var, _, driver_name)) in drivers.iter().enumerate() {
-        sectors.push(format!("driver{i}_sectors = pd.DataFrame(\n    {{\n         \"Driver\": [\"{name}\"] * len({var}_sec1),\n        \"Sector1Time\": {var}_sec1,\n        \"Sector2Time\": {var}_sec2,\n        \"Sector3Time\": {var}_sec3,\n        \"Lap Time\": {var}_{sesh}_lap_time,\n    }}\n)\n\n\n",i = index +1,name = driver_name,var = driver_var,sesh =sesh_var_name),);
+        sectors.push(format!("driver{i}_sectors = pd.DataFrame(\n    {{\n         \"Driver\": [\"{name}\"] * len({var}_{sesh}_sec1),\n        \"Sector1Time\": {var}_{sesh}_sec1,\n        \"Sector2Time\": {var}_{sesh}_sec2,\n        \"Sector3Time\": {var}_{sesh}_sec3,\n        \"Lap Time\": {var}_{sesh}_lap_time,\n    }}\n)\n\n\n",i = index +1,name = driver_name,var = driver_var,sesh =sesh_var_name),);
     }
 
     let concat_drivers: String = (0..drivers.len())
@@ -67,7 +67,7 @@ pub fn generate_plot(file_path: &str, sesh_var_name: &str, drivers: Vec<(&str, &
     .collect::<Vec<String>>()
     .join(", ");
 
-    sectors.push(format!("all_drivers_sectors = pd.concat(\n    [{}],\n    ignore_index=True,\n)\nall_drivers_sectors[\"Sector1Time\"] = all_drivers_sectors[\"Sector1Time\"].apply(\n    convert_to_normal\n)\nall_drivers_sectors[\"Sector2Time\"] = all_drivers_sectors[\"Sector2Time\"].apply(\n    convert_to_normal\n)\nall_drivers_sectors[\"Sector3Time\"] = all_drivers_sectors[\"Sector3Time\"].apply(\n    convert_to_normal\n)\nall_drivers_sectors[\"Lap Time\"] = all_drivers_sectors[\"Lap Time\"].apply(\n    convert_to_normal\n)\nall_drivers_sectors.sort_values(\n    by=[\"Sector1Time\", \"Sector2Time\", \"Sector3Time\"], ascending=True\n)\nall_drivers_sectors.dropna()",concat_drivers));
+    sectors.push(format!("all_drivers_sectors = pd.concat(\n    [{}],\n    ignore_index=True,\n)\nall_drivers_sectors.sort_values(\n    by=[\"Sector1Time\", \"Sector2Time\", \"Sector3Time\"], ascending=True\n)\nall_drivers_sectors.dropna()",concat_drivers));
 
     add_cell(file_path, sectors);
 
