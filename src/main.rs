@@ -1,6 +1,9 @@
 pub mod add_cell;
 pub mod create_env;
 pub mod driver_analysis;
+pub mod driver_positions;
+pub mod drivers_pitstop;
+pub mod fastest_speed;
 pub mod notebook;
 pub mod plot;
 pub mod run_notebook;
@@ -9,6 +12,9 @@ use add_cell::{add_cell, add_markdown};
 use dialoguer::theme::ColorfulTheme;
 use dialoguer::Select;
 use driver_analysis::driver_analysis;
+use driver_positions::drivers_positions;
+use drivers_pitstop::pitstop;
+use fastest_speed::fastest_speed;
 use notebook::select_notebook;
 use plot::generate_plot;
 use run_notebook::run_notebook;
@@ -102,7 +108,7 @@ fn main() {
                 .items(&gp)
                 .interact()
                 .unwrap();
-            let ( _, gp_name) = gp_display_names[select_gp];
+            let (_, gp_name) = gp_display_names[select_gp];
 
             loop {
                 let mut sesh_names: Vec<_> = sessions.iter().map(|(sesh, _, _)| sesh).collect();
@@ -143,7 +149,13 @@ fn main() {
             "    :, [\"Abbreviation\", \"TeamName\", \"GridPosition\", \"Position\", \"Time\", \"Status\"]\n".to_string(),
             "]".to_string()],
                     );
-                add_cell(file_path_str, vec![format!("{}.laps", sesh_var_name)]);
+                add_cell(
+                    file_path_str,
+                    vec![format!(
+                        "{sesh}_laps = {sesh}.laps\n{sesh}.laps",
+                        sesh = sesh_var_name
+                    )],
+                );
 
                 let options = vec!["Yes", "No"];
                 let mut drivers_analysis: Vec<(String, String, String)> = Vec::new();
@@ -180,6 +192,13 @@ fn main() {
                     .collect();
                 generate_plot(file_path_str, sesh_var_name, plot_data);
                 run_notebook(file_path_str, python_dir.clone());
+                if sesh_var_name == "race" {
+                    println!("Analysing drivers positions and pit stops...");
+                    drivers_positions(file_path_str);
+                    pitstop(file_path_str);
+                    fastest_speed(file_path_str);
+                    run_notebook(file_path_str, python_dir.clone());
+                }
             }
         } else {
             println!("Failed to convert the file path to a valid string.");
