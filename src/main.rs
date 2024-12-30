@@ -7,6 +7,10 @@ pub mod fastest_speed;
 pub mod notebook;
 pub mod plot;
 pub mod run_notebook;
+pub mod track_comp;
+
+use std::thread::sleep;
+use std::time::Duration;
 
 use add_cell::{add_cell, add_markdown};
 use dialoguer::theme::ColorfulTheme;
@@ -18,6 +22,7 @@ use fastest_speed::fastest_speed;
 use notebook::select_notebook;
 use plot::generate_plot;
 use run_notebook::run_notebook;
+use track_comp::track_comparison;
 
 fn main() {
     if let Some(file_path) = select_notebook() {
@@ -152,7 +157,7 @@ fn main() {
                 add_cell(
                     file_path_str,
                     vec![format!(
-                        "{sesh}_laps = {sesh}.laps\n{sesh}.laps",
+                        "{sesh}_laps = {sesh}.laps\n{sesh}_laps",
                         sesh = sesh_var_name
                     )],
                 );
@@ -185,7 +190,7 @@ fn main() {
                     }
                 }
 
-                println!("Chart analysis for {} session.", sesh_var_name);
+                println!("Chart analysis for {} session...", sesh_var_name);
                 let plot_data: Vec<(&str, &str, &str)> = drivers_analysis
                     .iter()
                     .map(|(a, b, c)| (a.as_str(), b.as_str(), c.as_str()))
@@ -197,6 +202,10 @@ fn main() {
                     drivers_positions(file_path_str);
                     pitstop(file_path_str);
                     fastest_speed(file_path_str);
+                    run_notebook(file_path_str, python_dir.clone());
+                    println!("Comparing drivers..");
+                    sleep(Duration::from_secs(1));
+                    track_comparison(file_path_str);
                     run_notebook(file_path_str, python_dir.clone());
                 }
             }
