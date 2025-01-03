@@ -1,8 +1,8 @@
 use dialoguer::{theme::ColorfulTheme, Input, Select};
-use native_dialog::FileDialog;
+use native_dialog::{Error, FileDialog};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use std::{fs::File, io::Write, path::PathBuf};
+use std::{fs::File, io::Write, path::PathBuf, process::Command};
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(tag = "cell_type")]
@@ -44,11 +44,21 @@ pub fn select_notebook() -> Option<PathBuf> {
         .unwrap();
     match selection {
         0 => {
-            let file_path = FileDialog::new()
-                .set_location(".")
-                .add_filter("Jupyter Notebook", &["ipynb"])
-                .show_open_single_file();
-
+            let file_path: Result<Option<PathBuf>, Error>;
+            if wsl::is_wsl() {
+                println!("WSL detected");
+                let res = Command::new("kdialog")
+                    .arg("--getexistingdirectory")
+                    .output()
+                    .unwrap();
+                file_path = Ok(Some(PathBuf::from(
+                    String::from_utf8_lossy(&res.stdout).trim(),
+                )));
+            } else {
+                file_path = FileDialog::new()
+                    .add_filter("Jupyter Notebook", &["ipynb"])
+                    .show_open_single_file();
+            }
             match file_path {
                 Ok(Some(path)) => {
                     // File selected successfully
@@ -68,11 +78,20 @@ pub fn select_notebook() -> Option<PathBuf> {
             }
         }
         1 => {
-            let output_dir = FileDialog::new()
-                .show_open_single_dir()
-                .expect("Failed to open file dialog")
-                .expect("No directory selected");
-
+            let output_dir: PathBuf;
+            if wsl::is_wsl() {
+                println!("WSL detected");
+                let res = Command::new("kdialog")
+                    .arg("--getexistingdirectory")
+                    .output()
+                    .unwrap();
+                output_dir = PathBuf::from(String::from_utf8_lossy(&res.stdout).trim());
+            } else {
+                output_dir = FileDialog::new()
+                    .show_open_single_dir()
+                    .expect("Failed to open file dialog")
+                    .expect("No directory selected");
+            }
             // Step 2: Project name prompt
             let project_name: String = Input::with_theme(&ColorfulTheme::default())
                 .with_prompt("Enter the file name")
