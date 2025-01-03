@@ -61,7 +61,7 @@ pub fn pitstop(file_path: &str) {
         "    for i in range(len(driver_comp.LapNumber)):\n".to_string(),
         "        x_segment = [x_points[i], x_points[i + 1]]\n".to_string(),
         "        y_segment = [y_points[i], y_points[i + 1]]\n".to_string(),
-        "        tire_color = color_mapping.get(compound[i], \"unknown\")\n".to_string(),
+        "        tire_color = color_mapping.get(compound[i], \"#000000\")\n".to_string(),
         "        label = compound[i] if compound[i] not in used_labels else None\n".to_string(),
         "        \n".to_string(),
         "        ax.plot(x_segment, y_segment, color=tire_color, linewidth=2, label=label)\n".to_string(),
