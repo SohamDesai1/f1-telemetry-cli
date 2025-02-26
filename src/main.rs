@@ -70,6 +70,8 @@ fn main() {
             ];
             add_cell(file_path_str, time_fn);
 
+            let years = vec!["2025", "2024", "2023", "2022", "2021", "2020"];
+
             let sessions = vec![
                 ("Sprint Qualifying", "Sprint Qualifying", "SpQuali"),
                 ("Sprint Race", "Sprint", "sprint"),
@@ -103,6 +105,12 @@ fn main() {
                 ("Abu Dhabi Grand Prix", "United Arab Emirates"),
             ];
 
+            let select_year = Select::with_theme(&ColorfulTheme::default())
+                .with_prompt("Select a year:")
+                .default(0)
+                .items(&years)
+                .interact()
+                .unwrap();
             let gp: Vec<_> = gp_display_names
                 .iter()
                 .map(|(country, _)| *country)
@@ -114,6 +122,7 @@ fn main() {
                 .interact()
                 .unwrap();
             let (_, gp_name) = gp_display_names[select_gp];
+
 
             loop {
                 let mut sesh_names: Vec<_> = sessions.iter().map(|(sesh, _, _)| sesh).collect();
@@ -138,8 +147,8 @@ fn main() {
                     file_path_str,
                     vec![
                         format!(
-                            "{} = f1.get_session(2024, \"{}\", \"{}\")\n",
-                            sesh_var_name, gp_name, sesh
+                            "{} = f1.get_session({}, \"{}\", \"{}\")\n",
+                            sesh_var_name, select_year, gp_name, sesh
                         ),
                         format!("{}.load()", sesh_var_name),
                     ],
