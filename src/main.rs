@@ -111,6 +111,7 @@ fn main() {
                 .items(&years)
                 .interact()
                 .unwrap();
+            println!("{:?}",years[select_year]);
             let gp: Vec<_> = gp_display_names
                 .iter()
                 .map(|(country, _)| *country)
@@ -148,7 +149,7 @@ fn main() {
                     vec![
                         format!(
                             "{} = f1.get_session({}, \"{}\", \"{}\")\n",
-                            sesh_var_name, select_year, gp_name, sesh
+                            sesh_var_name, years[select_year], gp_name, sesh
                         ),
                         format!("{}.load()", sesh_var_name),
                     ],
