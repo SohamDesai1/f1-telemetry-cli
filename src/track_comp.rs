@@ -34,7 +34,7 @@ pub fn track_comparison(file_path: &str) {
     let display_names: Vec<_> = drivers.iter().map(|(_, full_name)| full_name).collect();
     loop {
         let selections = MultiSelect::new()
-            .with_prompt("Select 2 drivers to compare:")
+            .with_prompt("Select 2 drivers to compare: (Space to select, Enter to confirm)")
             .items(&display_names)
             .interact()
             .unwrap();
