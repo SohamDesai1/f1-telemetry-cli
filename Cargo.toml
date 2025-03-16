@@ -2,6 +2,13 @@
 name = "f1-telemetry-cli"
 version = "0.1.0"
 edition = "2021"
+authors = ["Soham Desai sohamcodesstuff@gmail.com"]
+license = "Apache-2.0"
+description = "A tool to perform telemetry analysis on F1 racing data"
+readme = "README.md"
+repository = "https://github.com/SohamDesai1/f1-telemetry-cli"
+keywords = ["cli", "telemetry", "f1"]
+categories = ["command-line-utilities"]
 
 [dependencies]
 colored = "2.2.0"
