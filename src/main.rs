@@ -35,10 +35,11 @@ fn main() {
                     "import pandas as pd\n".to_string(),
                     "import matplotlib.pyplot as plt\n".to_string(),
                     "from matplotlib.collections import LineCollection\n".to_string(),
+                    "import seaborn as sns\n".to_string(),
                     "import fastf1 as f1\n".to_string(),
+                    "from fastf1 import plotting\n".to_string(),
                     "from ing_theme_matplotlib import mpl_style\n".to_string(),
-                    "import mplcyberpunk\n".to_string(),
-                    "from fastf1 import plotting".to_string(),
+                    "import mplcyberpunk".to_string(),
                 ],
             );
 
