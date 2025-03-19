@@ -192,7 +192,7 @@ dependencies = [
 
 [[package]]
 name = "f1-telemetry-cli"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "colored",
  "dialoguer",
