@@ -138,7 +138,7 @@ pub fn generate_plot(file_path: &str, sesh_var_name: &str, drivers: Vec<(&str, &
         .collect::<Vec<String>>()
         .join(", ");
 
-    sectors.push(format!("all_drivers_sectors = pd.concat(\n    [{}],\n    ignore_index=True,\n)\nall_drivers_sectors[\"Sector1Time\"] = all_drivers_sectors[\"Sector1Time\"].apply(\n    convert_to_normal\n)\nall_drivers_sectors[\"Sector2Time\"] = all_drivers_sectors[\"Sector2Time\"].apply(    convert_to_normal\n)\nall_drivers_sectors[\"Sector2Time\"] = all_drivers_sectors[\"Sector2Time\"].apply(    convert_to_normal\n)\nall_drivers_sectors[\"Lap Time\"] = all_drivers_sectors[\"Lap Time\"].apply(    convert_to_normal\n)\nall_drivers_sectors.sort_values(\n    by=[\"Sector1Time\", \"Sector2Time\", \"Sector3Time\"], ascending=True\n)\nall_drivers_sectors.dropna()",concat_drivers));
+    sectors.push(format!("all_drivers_sectors = pd.concat(\n    [{}],\n    ignore_index=True,\n)\nall_drivers_sectors.sort_values(\n    by=[\"Sector1Time\", \"Sector2Time\", \"Sector3Time\"], ascending=True\n)\nall_drivers_sectors.dropna()",concat_drivers));
 
     add_cell(file_path, sectors);
 
