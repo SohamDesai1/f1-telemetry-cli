@@ -85,7 +85,7 @@ fn main() {
                 ("Japanese Grand Prix", "Japan"),
                 ("Bahrain Grand Prix", "Bahrain"),
                 ("Saudi Arabian Grand Prix", "Saudi Arabia"),
-                ("Miami Grand Prix", "United States"),
+                ("Miami Grand Prix", "Miami"),
                 ("Emilia Romagna Grand Prix", "Italy"),
                 ("Monaco Grand Prix", "Monaco"),
                 ("Spanish Grand Prix", "Spain"),
